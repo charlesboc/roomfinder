@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+body {
+	margin: 0;
+}
+#map {
+	position: absolute;
+}
+#currentPos {
+	position: fixed;
+	top: 10px;
+	right: 10px;
+	color: lightgreen;
+	font-weight: bold;
+	background-color: black;
+}
+#output {
+	position: fixed;
+	right: 10px;
+	bottom: 10px;
+	width: 300px;
+	height: 50px;
+}
+.spot {
+	position: absolute;
+	width: 3px;
+	height: 3px;
+	background-color: red;
+}
+.line {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	background-color: red;
+}
+</style>
+</head>
+<body>
+<div id="map">
+	<img src="map_73_20150917154500Geneva 2nd Floor.jpg"></img>
+	<!--
+	map_73_20150917154500Geneva 2nd Floor
+	map_74_20150917154510Geneva 3rd Floor
+	map_72_20150917154447Geneva 4th Floor
+	map_78_20150919075554Geneva 5th Floor
+	-->
+</div>
+<div id="currentPos"></div>
+<textarea id="output"></textarea>
+<script type="text/javascript">
+var x, y;
+document.onmousemove = function (e) {
+	x = e.pageX - e.pageX % 2;
+	y = e.pageY - e.pageY % 2;
+	var posDiv = document.getElementById('currentPos');
+	posDiv.innerHTML = 'x: ' + x + ', y: ' + y;
+}
+document.onclick = function (e) {
+	if (e.target.tagName != 'IMG')
+		return;
+	var ref = window.prompt('Reference?', 'R00,00');
+	if (!ref)
+		return;
+	var outputDiv = document.getElementById('output');
+	outputDiv.innerHTML += '{ ref: "' + ref + '", x: ' + x + ', y: ' + y + ' },\r\n';
+	var spot = document.createElement('div');
+	spot.className = 'spot';
+	spot.style.top = (y - 1) + 'px';
+	spot.style.left = (x - 1) + 'px';
+	document.getElementById('map').appendChild(spot);
+}
+</script>
+<script type="text/javascript" src="MapToGraph.js"></script>
+</body>
+</html>
